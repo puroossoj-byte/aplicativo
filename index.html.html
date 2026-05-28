@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tattoo Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #010306;
+      --panel: rgba(3, 12, 18, .86);
+      --panel-soft: rgba(255, 255, 255, .035);
+      --cyan: #00e5ff;
+      --cyan-soft: #9aeff2;
+      --green: #2df8a3;
+      --text: #f2f8f8;
+      --muted: rgba(218, 238, 240, .68);
+      --line: rgba(154, 239, 242, .28);
+      --line-strong: rgba(154, 239, 242, .48);
+      --display: 'Cinzel', 'Times New Roman', serif;
+      --body: 'Rajdhani', 'Segoe UI', Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--body);
+      background:
+        linear-gradient(90deg, rgba(80,216,221,.018) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(80,216,221,.014) 1px, transparent 1px),
+        radial-gradient(ellipse at 18% 16%, rgba(21,216,230,.10), transparent 36rem),
+        radial-gradient(ellipse at 88% 4%, rgba(45,248,163,.06), transparent 32rem),
+        linear-gradient(180deg, #010204 0%, #02070c 56%, #010204 100%);
+      background-size: 72px 72px, 72px 72px, auto, auto, auto;
+      color: var(--text);
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 24%, rgba(21,216,230,.055) 25%, transparent 26% 58%, rgba(154,239,242,.035) 59%, transparent 60%),
+        radial-gradient(ellipse at center, transparent 24%, rgba(1,3,6,.88) 100%);
+      opacity: .88;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 22px;
+    }
+
+    .hero, .panel, .price-panel {
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.10), transparent 18%),
+        linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.016), rgba(21,216,230,.052)),
+        var(--panel);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 0 42px rgba(21,216,230,.12), inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(154,239,242,.06);
+      border-radius: 10px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 280px;
+      padding: 96px 34px 34px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -58px;
+      top: -58px;
+      border: 1px solid rgba(154,239,242,.18);
+      border-radius: 50%;
+      box-shadow: inset 0 0 48px rgba(21,216,230,.08), 0 0 60px rgba(21,216,230,.08);
+      pointer-events: none;
+    }
+
+    .dev-credit {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.42;
+      letter-spacing: .06em;
+      color: var(--muted);
+      border-left: 2px solid var(--line-strong);
+      padding: 6px 0 6px 12px;
+      text-transform: uppercase;
+    }
+
+    .dev-credit strong {
+      display: inline;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-shadow: 0 0 12px rgba(0,229,255,.35);
+      font-size: 13px;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-family: var(--display);
+      font-size: clamp(46px, 7vw, 86px);
+      line-height: 0.92;
+      font-weight: 900;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(0,229,255,.28), 0 0 44px rgba(0,229,255,.16);
+    }
+
+    .signature {
+      margin-top: 18px;
+      color: var(--cyan-soft);
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      line-height: 1.6;
+      text-shadow: 0 0 12px rgba(0,229,255,.18);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .panel {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .panel.full {
+      grid-column: 1 / -1;
+    }
+
+    .eyebrow {
+      color: var(--cyan-soft);
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      margin-bottom: 7px;
+      text-shadow: 0 0 10px rgba(0,229,255,.16);
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .closure-options {
+      margin-top: 14px;
+    }
+
+    button.option {
+      min-height: 68px;
+      color: var(--text);
+      text-align: left;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(154,239,242,.22);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.018), rgba(21,216,230,.045)),
+        var(--panel-soft);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.11);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .035em;
+      transition: 0.25s ease;
+    }
+
+    button.option:hover {
+      border-color: rgba(154,239,242,.55);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.028), rgba(21,216,230,.07)),
+        rgba(255,255,255,.045);
+      box-shadow: 0 0 22px rgba(21,216,230,.14), inset 0 1px 0 rgba(255,255,255,.14);
+      transform: translateY(-1px);
+    }
+
+    button.option.active {
+      border-color: rgba(45,248,163,.82);
+      background:
+        linear-gradient(135deg, rgba(45,248,163,.13), rgba(255,255,255,.035), rgba(21,216,230,.09)),
+        rgba(45,248,163,.045);
+      box-shadow: 0 0 28px rgba(45,248,163,.20), inset 0 0 16px rgba(45,248,163,.08);
+    }
+
+    .size-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .size-card {
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(154,239,242,.22);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.018), rgba(21,216,230,.045)),
+        var(--panel-soft);
+    }
+
+    .size-card span {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    .input-line {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #010306;
+      border: 2px solid var(--text);
+      box-shadow: 0 0 0 7px rgba(21,216,230,.10), 0 0 20px rgba(21,216,230,.26);
+      cursor: pointer;
+    }
+
+    input[type="number"] {
+      width: 82px;
+      height: 46px;
+      border-radius: 8px;
+      border: 1px solid rgba(154,239,242,.26);
+      background: rgba(1,3,5,.8);
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: right;
+      padding: 0 10px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    .sessions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .session-number {
+      min-width: 118px;
+      min-height: 88px;
+      border-radius: 8px;
+      border: 1px solid rgba(154,239,242,.22);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.018), rgba(21,216,230,.045)),
+        var(--panel-soft);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .session-number strong {
+      display: block;
+      font-size: 40px;
+      line-height: 1;
+      color: var(--cyan-soft);
+      text-shadow: 0 0 18px rgba(0,229,255,.22);
+    }
+
+    .session-number span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .price-panel {
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+      min-height: 520px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .price-panel:before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(154,239,242,.10);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .price-label {
+      color: var(--cyan-soft);
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      margin-bottom: 22px;
+    }
+
+    .price {
+      width: 100%;
+      max-width: 100%;
+      font-family: var(--display);
+      font-size: clamp(40px, 4.8vw, 58px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: .02em;
+      text-shadow: 0 0 18px rgba(0,229,255,.28), 0 0 55px rgba(21,216,230,.14);
+      overflow-wrap: anywhere;
+      word-break: normal;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .status {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .pulse {
+      animation: pulsePrice 0.28s ease;
+    }
+
+    @keyframes pulsePrice {
+      from {
+        opacity: 0.65;
+        transform: translateY(7px) scale(0.985);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .app { grid-template-columns: 1fr; }
+      .price-panel { position: static; min-height: 300px; }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 8px;
+        overscroll-behavior-x: none;
+      }
+
+      .app {
+        gap: 12px;
+      }
+
+      .hero, .panel, .price-panel {
+        padding: 18px;
+        border-radius: 8px;
+      }
+
+      .hero {
+        min-height: 250px;
+        padding-top: 92px;
+      }
+
+      .dev-credit {
+        top: 16px;
+        left: 16px;
+        max-width: calc(100% - 32px);
+        font-size: 10px;
+        line-height: 1.25;
+        letter-spacing: .035em;
+      }
+
+      .dev-credit strong {
+        font-size: 11px;
+        letter-spacing: .10em;
+      }
+
+      h1 {
+        max-width: 100%;
+        font-size: clamp(37px, 11vw, 54px);
+        line-height: .98;
+        letter-spacing: .055em;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .signature {
+        font-size: 10px;
+        letter-spacing: .18em;
+      }
+
+      .grid, .options, .size-grid { grid-template-columns: 1fr; }
+      .sessions { flex-direction: column; align-items: stretch; }
+      .session-number { width: 100%; }
+
+      .price-panel {
+        min-height: 260px;
+      }
+
+      .price {
+        font-size: clamp(38px, 12vw, 58px);
+        word-break: break-word;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <section>
+      <header class="hero">
+        <span class="dev-credit">Criado e Desenvolvido por<br><strong>NEW TIMES CO.</strong> · 2026 · V1.3</span>
+        <h1>TATTOO CODE</h1>
+      </header>
+
+      <div class="grid">
+        <section class="panel">
+          <p class="eyebrow">Estilo</p>
+          <h2>Escolha o estilo</h2>
+          <div id="styleOptions" class="options"></div>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Tamanho</p>
+          <h2>Defina as medidas</h2>
+
+          <div class="size-grid">
+            <label class="size-card">
+              <span>Altura em cm</span>
+              <div class="input-line">
+                <input id="heightRange" type="range" min="0" max="80" value="0" />
+                <input id="heightInput" type="number" min="0" max="80" value="0" />
+              </div>
+            </label>
+
+            <label class="size-card">
+              <span>Largura em cm</span>
+              <div class="input-line">
+                <input id="widthRange" type="range" min="0" max="80" value="0" />
+                <input id="widthInput" type="number" min="0" max="80" value="0" />
+              </div>
+            </label>
+          </div>
+
+          <div style="margin-top:14px;">
+            <button id="completeClosure" class="option" style="width:100%; text-align:center;">
+              Fechamento completo
+            </button>
+          </div>
+
+          <div class="closure-options">
+            <p class="eyebrow" style="margin-top:20px;">Área do fechamento</p>
+            <div id="closurePartOptions" class="options"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Corpo</p>
+          <h2>Escolha o local</h2>
+          <div id="bodyOptions" class="options"></div>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Execução</p>
+          <h2>Nível do projeto</h2>
+          <div id="difficultyOptions" class="options"></div>
+        </section>
+
+        <section class="panel full">
+          <p class="eyebrow">Sessões</p>
+          <h2>Quantidade de sessões</h2>
+
+          <div class="sessions">
+            <input id="sessionsRange" type="range" min="1" max="10" value="1" />
+            <div class="session-number">
+              <div>
+                <strong id="sessionsText">1</strong>
+                <span>sessões</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <aside class="price-panel">
+      <p class="price-label">Valor final</p>
+      <div id="finalPrice" class="price">R$ 0</div>
+      <p id="statusText" class="status">Selecione as opções para iniciar o cálculo.</p>
+    </aside>
+  </main>
+
+  <script>
+    const MIN_PRICE = 2500;
+    const MIN_FULL_CLOSURE_PRICE = 31966;
+    const MAX_FULL_CLOSURE_PRICE = 39233;
+
+    const styles = [
+      { label: "Fine Line", multiplier: 0 },
+      { label: "Abstrato", multiplier: 0.08 },
+      { label: "Tribal", multiplier: 0.10 },
+      { label: "Mais de um estilo", multiplier: 0.16 },
+      { label: "Pontilhismo", multiplier: 0.18 },
+      { label: "Oriental", multiplier: 0.24 },
+      { label: "Realismo", multiplier: 0.28 }
+    ];
+
+    const bodyPlaces = [
+      { label: "Antebraço", multiplier: 0 },
+      { label: "Braço", multiplier: 0.08 },
+      { label: "Panturrilha", multiplier: 0.10 },
+      { label: "Costas", multiplier: 0.15 },
+      { label: "Canela", multiplier: 0.18 },
+      { label: "Peito", multiplier: 0.22 },
+      { label: "Pescoço", multiplier: 0.25 }
+    ];
+
+    const difficulties = [
+      { label: "Simples", multiplier: 0 },
+      { label: "Intermediário", multiplier: 0.15 },
+      { label: "Avançado", multiplier: 0.30 }
+    ];
+
+    const closureParts = [
+      { label: "Braço", multiplier: 0 },
+      { label: "Costas", multiplier: 0.15 },
+      { label: "Perna", multiplier: 0.30 },
+      { label: "Frontal", multiplier: 0.30 }
+    ];
+
+    const state = {
+      height: 0,
+      width: 0,
+      sessions: 1,
+      style: null,
+      bodyPlace: null,
+      difficulty: null,
+      closurePart: null,
+      fullClosure: false
+    };
+
+    function money(value) {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 0
+      }).format(Math.round(value));
+    }
+
+    function hasStarted() {
+      return state.style || state.bodyPlace || state.difficulty ||
+        state.closurePart || state.height > 0 || state.width > 0 || state.fullClosure;
+    }
+
+    function activateFullClosure() {
+      state.fullClosure = true;
+      state.height = 0;
+      state.width = 0;
+      state.sessions = 10;
+      state.bodyPlace = null;
+
+      document.getElementById("heightRange").value = 0;
+      document.getElementById("heightInput").value = 0;
+      document.getElementById("widthRange").value = 0;
+      document.getElementById("widthInput").value = 0;
+      document.getElementById("sessionsRange").value = 10;
+      document.getElementById("completeClosure").classList.add("active");
+    }
+
+    function deactivateFullClosure(resetSessions = false) {
+      state.fullClosure = false;
+      state.closurePart = null;
+
+      if (resetSessions) {
+        state.sessions = 1;
+        document.getElementById("sessionsRange").value = 1;
+      }
+
+      document.getElementById("completeClosure").classList.remove("active");
+    }
+
+    function calculateSizeBase(area) {
+      if (area <= 0) return MIN_PRICE;
+
+      const minArea = 169;
+      const smallReference = 400;
+      const mediumReference = 1350;
+
+      const priceAtMin = 2500;
+      const priceAtSmall = 2900;
+      const priceAtMedium = 4800;
+
+      if (area <= minArea) {
+        return MIN_PRICE;
+      }
+
+      if (area <= smallReference) {
+        const progress = (area - minArea) / (smallReference - minArea);
+        return priceAtMin + (priceAtSmall - priceAtMin) * Math.pow(progress, 1.35);
+      }
+
+      if (area <= mediumReference) {
+        const progress = (area - smallReference) / (mediumReference - smallReference);
+        return priceAtSmall + (priceAtMedium - priceAtSmall) * Math.pow(progress, 1.04);
+      }
+
+      const extraArea = area - mediumReference;
+      return priceAtMedium + extraArea * 2.85;
+    }
+
+    function calculateFullClosure() {
+      const maxStyle = 0.28;
+      const maxDifficulty = 0.30;
+      const maxClosurePart = 0.30;
+
+      const styleScore = state.style ? state.style.multiplier / maxStyle : 0;
+      const difficultyScore = state.difficulty ? state.difficulty.multiplier / maxDifficulty : 0;
+      const closurePartScore = state.closurePart ? state.closurePart.multiplier / maxClosurePart : 0;
+
+      const complexityScore = Math.min(
+        1,
+        Math.max(0, styleScore * 0.38 + difficultyScore * 0.32 + closurePartScore * 0.30)
+      );
+
+      return MIN_FULL_CLOSURE_PRICE +
+        (MAX_FULL_CLOSURE_PRICE - MIN_FULL_CLOSURE_PRICE) * complexityScore;
+    }
+
+    function calculate() {
+      if (!hasStarted()) return 0;
+
+      if (state.fullClosure) {
+        return calculateFullClosure();
+      }
+
+      const area = state.height * state.width;
+      const hasSize = state.height > 0 && state.width > 0;
+
+      let base = hasSize ? calculateSizeBase(area) : MIN_PRICE;
+
+      const styleMultiplier = state.style ? state.style.multiplier : 0;
+      const bodyMultiplier = state.bodyPlace ? state.bodyPlace.multiplier : 0;
+      const difficultyMultiplier = state.difficulty ? state.difficulty.multiplier : 0;
+
+      const oneSessionTotal = base
+        * (1 + styleMultiplier)
+        * (1 + bodyMultiplier)
+        * (1 + difficultyMultiplier);
+
+      const total = oneSessionTotal * state.sessions;
+
+      return Math.max(total, MIN_PRICE);
+    }
+
+    function renderOptions(containerId, items, selected, onSelect) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      items.forEach(item => {
+        const button = document.createElement("button");
+        button.className = "option" + (selected && selected.label === item.label ? " active" : "");
+        button.textContent = item.label;
+
+        button.onclick = () => {
+          onSelect(item);
+          update();
+        };
+
+        container.appendChild(button);
+      });
+    }
+
+    function syncSize(rangeId, inputId, key) {
+      const range = document.getElementById(rangeId);
+      const input = document.getElementById(inputId);
+
+      function setValue(value) {
+        const clean = Math.min(Math.max(Number(value) || 0, 0), 80);
+
+        deactivateFullClosure();
+
+        state[key] = clean;
+        range.value = clean;
+        input.value = clean;
+
+        update();
+      }
+
+      range.oninput = event => setValue(event.target.value);
+      input.oninput = event => setValue(event.target.value);
+    }
+
+    function animatePrice() {
+      const price = document.getElementById("finalPrice");
+      price.classList.remove("pulse");
+      void price.offsetWidth;
+      price.classList.add("pulse");
+    }
+
+    function update() {
+      renderOptions("styleOptions", styles, state.style, item => {
+        state.style = item;
+      });
+
+      renderOptions("bodyOptions", bodyPlaces, state.bodyPlace, item => {
+        deactivateFullClosure();
+        state.bodyPlace = item;
+      });
+
+      renderOptions("difficultyOptions", difficulties, state.difficulty, item => {
+        state.difficulty = item;
+      });
+
+      renderOptions("closurePartOptions", closureParts, state.closurePart, item => {
+        activateFullClosure();
+        state.closurePart = item;
+      });
+
+      const total = calculate();
+
+      document.getElementById("sessionsText").textContent = state.sessions;
+      document.getElementById("finalPrice").textContent = money(total);
+
+      const status = document.getElementById("statusText");
+
+      if (!hasStarted()) {
+        status.textContent = "Selecione as opções para iniciar o cálculo.";
+      } else if (state.fullClosure) {
+        status.textContent = "Fechamento completo calculado conforme as características do projeto.";
+      } else {
+        status.textContent = "Valor calculado conforme as características do projeto.";
+      }
+
+      animatePrice();
+    }
+
+    document.getElementById("sessionsRange").oninput = event => {
+      state.sessions = Number(event.target.value);
+      update();
+    };
+
+    document.getElementById("completeClosure").onclick = () => {
+      if (state.fullClosure) {
+        deactivateFullClosure(true);
+      } else {
+        activateFullClosure();
+      }
+
+      update();
+    };
+
+    syncSize("heightRange", "heightInput", "height");
+    syncSize("widthRange", "widthInput", "width");
+
+    update();
+  </script>
+</body>
+</html>
